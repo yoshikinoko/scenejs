@@ -152,8 +152,7 @@
             bpy = 0;
             bpz = 0;
             bRotateAngle = 0;
-            // bRotateAngle = i * 90;
-           
+
             if((i % 6) >= 3){
                 bRotateAngle = 90;
                 bpz = (i % 3) * zBlockSize  - zBlockSize;
@@ -161,27 +160,8 @@
             }else{
                 bpz = (i % 3) * zBlockSize ;
             }
-            // var bHstp = i / 3;
-            // console.log( "i : " + i + " stp : " + bHstp);
-
-
-
-            // bpy = (i + 1 ) * 4;
-            // bpy = yBlockSize/ 2.0 ;
             bpy = Math.floor(i / 3) * yBlockSize  + yBlockSize/ 2.0 ;
             
-
-            // bpz = i * zBlockSize ;
-            // bpx = (i % 3) * xBlockSize + xBlockSize / 2.0;
-
-            console.log("block " + i);
-            console.log("PX : " + bpx );
-            console.log("PY : " + bpy );
-            console.log("PZ : " + bpz );
-
-
-
-
             nodes.push(
                   // {  
                     // rotate: bRotateAngle
@@ -199,24 +179,7 @@
                         width:xBlockSize,
                         depth:zBlockSize,
                         height:yBlockSize,
-                        // rotate:bRotateAngle,
-                        // height:30,
-                        // size: [
-                        //     xBlockSize,
-                        //     yBlockSize,
-                        //     zBlockSize
-                        // ],
 
-                        // pos:[
-                        //     Math.random() * 5 - 2.5,
-                        //     yPos,
-                        //     Math.random() * 5 - 2.5
-                        // ],
-                        // pos:[
-                        //     0,
-                        //      Math.random() * 10 - 5,
-                        //      0
-                        // ],
                         pos:[
                             bpx,
                             bpy,
@@ -259,9 +222,6 @@
                                             yBlockSize / 2.0,
                                             zBlockSize / 2.0
                                         ]
-                                        // width:xBlockSize,
-                                        // depth:zBlockSize,
-                                        // height:yBlockSize,
                                 }]
                         }]
                     }]
