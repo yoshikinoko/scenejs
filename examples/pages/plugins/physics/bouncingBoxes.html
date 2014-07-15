@@ -123,54 +123,112 @@
                     // A bunch of physics bodies wrapping colored spheres
                     {
                         type:"node",
-                        nodes:makeBodies(30)
+                        nodes:makeBodies()
                     }
                 ]
             }
         ]
     });
 
-    // Returns a bunch of "prims/sphere" nodes, each wrapped by a spherical "physics/body" node
-    function makeBodies(numBodies) {
 
+    // Returns a bunch of "prims/sphere" nodes, each wrapped by a spherical "physics/body" node
+    function makeBodies() {
+        var numBodies = 54; // 54 is number of block in Jenga(TM)
         var nodes = [];
 
-        var xSize;
-        var ySize;
-        var zSize;
+        var xBlockSize = 7.5;
+        var yBlockSize = 1.5;
+        var zBlockSize = 2.5;
 
-        var yPos = 50;
+        var bRotateAngle = 0;
+        var bpy = 0;
+        var bpx = 0;
+        var bpz = 0;
+        var planeSize = 100;
+        var planeHeight = 0.1
 
         for (var i = 0; i < numBodies; i++) {
+            bpx = 0;
+            bpy = 0;
+            bpz = 0;
+            bRotateAngle = 0;
+            // bRotateAngle = i * 90;
+           
+            if((i % 6) >= 3){
+                bRotateAngle = 90;
+                bpz = (i % 3) * zBlockSize  - zBlockSize;
+                bpx = -zBlockSize;
+            }else{
+                bpz = (i % 3) * zBlockSize ;
+            }
+            // var bHstp = i / 3;
+            // console.log( "i : " + i + " stp : " + bHstp);
 
-            xSize = Math.random() * 5 + 1;
-            ySize = Math.random() * 5 + 1;
-            zSize = Math.random() * 5 + 1;
+
+
+            // bpy = (i + 1 ) * 4;
+            // bpy = yBlockSize/ 2.0 ;
+            bpy = Math.floor(i / 3) * yBlockSize  + yBlockSize/ 2.0 ;
+            
+
+            // bpz = i * zBlockSize ;
+            // bpx = (i % 3) * xBlockSize + xBlockSize / 2.0;
+
+            console.log("block " + i);
+            console.log("PX : " + bpx );
+            console.log("PY : " + bpy );
+            console.log("PZ : " + bpz );
+
+
+
 
             nodes.push(
-
+                  // {  
+                    // rotate: bRotateAngle
                     // Physics body primitive, implemented by plugin at
                     // http://scenejs.org/api/latest/plugins/node/physics/body.js
-                    {
+                {
+                    type: "rotate",
+                    y: 1.0,
+                    angle: bRotateAngle,
+                    nodes:[{
                         type:"physics/body",
                         shape:"box",
 
                         // Default box dimensions
-                        width:xSize,
-                        depth:zSize,
-                        height:ySize,
+                        width:xBlockSize,
+                        depth:zBlockSize,
+                        height:yBlockSize,
+                        // rotate:bRotateAngle,
+                        // height:30,
+                        // size: [
+                        //     xBlockSize,
+                        //     yBlockSize,
+                        //     zBlockSize
+                        // ],
 
+                        // pos:[
+                        //     Math.random() * 5 - 2.5,
+                        //     yPos,
+                        //     Math.random() * 5 - 2.5
+                        // ],
+                        // pos:[
+                        //     0,
+                        //      Math.random() * 10 - 5,
+                        //      0
+                        // ],
                         pos:[
-                            Math.random() * 5 - 2.5,
-                            yPos,
-                            Math.random() * 5 - 2.5
+                            bpx,
+                            bpy,
+                            bpz
                         ],
+                        
 
                         // Body is just passively falling from a height
                         velocity:[0, 0, 0],
 
                         //
-                        mass:2.0,
+                        mass:1.0,
 
                         // Specify that this body is able to move
                         movable:true,
@@ -180,35 +238,35 @@
                         // an impact, taken along the line of the impact.
                         //
                         // This body will not be so bouncy.
-                        restitution:0.05,
+                        restitution:0.000005,
 
 
-                        friction:10.0,
+                        friction:10.9,
 
                         // Child node will be translated and rotated according to
                         // the body's behaviour within the physics system
-                        nodes:[
-                            {
+                        nodes:[{
                                 type:"material",
-                                color:{ r:Math.random(), g:Math.random(), b:Math.random() },
-
+                                color:{ r: Math.random(), g: Math.random(), b: Math.random() },
+                                // color:{ r: 1.0  * i / numBodies, g:1.0  * i / numBodies, b:1.0  * i / numBodies },
                                 nodes:[
-
                                     // Sphere primitive, implemented by plugin at
                                     // http://scenejs.org/api/latest/plugins/node/prims/sphere.js
                                     {
                                         type:"prims/box",
-                                        xSize:xSize / 2,
-                                        ySize:ySize / 2,
-                                        zSize:zSize / 2
-                                    }
-                                ]
-                            }
-                        ]
-                    });
-
-            yPos += 10;
-        }
+                                        size: [
+                                            xBlockSize / 2.0,
+                                            yBlockSize / 2.0,
+                                            zBlockSize / 2.0
+                                        ]
+                                        // width:xBlockSize,
+                                        // depth:zBlockSize,
+                                        // height:yBlockSize,
+                                }]
+                        }]
+                    }]
+                });
+            }
         return nodes;
     }
 
